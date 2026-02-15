@@ -1,0 +1,561 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "ClipForge Mobile (React PWA) — Frontend Implementation Plan",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Mobile-first app shell with persistent bottom tabs (Home/Templates/Create/Projects/Profile) plus dark/light mode.",
+      "acceptanceCriteria": [
+        "App has a persistent bottom navigation with the 5 tabs and sensible routes/screens for each.",
+        "A theme toggle (or system-aware theme) switches between dark and light mode and applies consistently across screens.",
+        "UI is mobile-first and works at common phone widths without horizontal scrolling."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Create the root app shell: bottom tab navigation with routes/screens for Home, Templates, Create, Projects, Profile; include a top-level layout container and route wiring so all screens are reachable."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Add global base styles for mobile-first layout (safe-area padding, prevent horizontal scroll), and enable Tailwind dark mode class support with consistent background/foreground tokens."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Adjust theme tokens (colors/radius/shadows) to support the app’s design system for both dark and light mode; ensure primary accent avoids blue/purple."
+        },
+        {
+          "path": "frontend/src/features/theme/ThemeProvider.tsx",
+          "operation": "create",
+          "description": "Implement theme state (system-aware default + user override), persist preference in localStorage, and apply/remove the Tailwind dark class at the document root."
+        },
+        {
+          "path": "frontend/src/features/theme/ThemeToggle.tsx",
+          "operation": "create",
+          "description": "Create a compact theme toggle UI for the app header/profile screen. Use shadcn-ui primitives where appropriate (Verify the component's usage instructions before implementing.)"
+        },
+        {
+          "path": "frontend/src/screens/HomeScreen.tsx",
+          "operation": "create",
+          "description": "Create the Home tab screen with quick actions (e.g., Start from Template, New Video, New Photo) and offline/config status indicators."
+        },
+        {
+          "path": "frontend/src/screens/TemplatesScreen.tsx",
+          "operation": "create",
+          "description": "Create the Templates tab screen shell; actual catalog/content wired in REQ-4/REQ-7."
+        },
+        {
+          "path": "frontend/src/screens/CreateScreen.tsx",
+          "operation": "create",
+          "description": "Create the Create tab screen with entry points into Video Editor and Photo Editor flows and template-based creation."
+        },
+        {
+          "path": "frontend/src/screens/ProjectsScreen.tsx",
+          "operation": "create",
+          "description": "Create the Projects tab screen shell; list/search/sort/duplicate/delete wired in REQ-8."
+        },
+        {
+          "path": "frontend/src/screens/ProfileScreen.tsx",
+          "operation": "create",
+          "description": "Create the Profile tab screen with login/logout entry point (Internet Identity), user profile setup, theme toggle, and Pro/Free status display (wired in REQ-9)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Define and apply a cohesive CapCut-inspired (non-branded) design system: typography, spacing, component styles, and motion guidelines; avoid blue/purple primary.",
+      "acceptanceCriteria": [
+        "A documented design theme is applied across key screens (Home/Templates/Create/Projects/Profile + editor screens).",
+        "Primary color palette does not use blue/purple as the main accent.",
+        "Interactive elements (buttons, tabs, modals, sliders) share consistent styling and motion."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/design/design-system.md",
+          "operation": "create",
+          "description": "Document the UI theme: typography scale, spacing, color palette (non-blue/purple primary), component styling rules, and motion/transition guidelines used across app and editors."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Define CSS variables for the design tokens (light/dark), base typography, and shared motion easing/duration utilities to apply consistently across screens."
+        },
+        {
+          "path": "frontend/src/components/layout/AppScaffold.tsx",
+          "operation": "create",
+          "description": "Create a reusable scaffold (header/content/bottom-nav slots) that applies consistent spacing, typography, and transitions between routes."
+        },
+        {
+          "path": "frontend/src/components/common/BottomTabBar.tsx",
+          "operation": "create",
+          "description": "Implement a consistent bottom navigation bar with tab icons/labels, active state styling, and subtle transitions. Use shadcn-ui building blocks where helpful (Verify the component's usage instructions before implementing.)"
+        },
+        {
+          "path": "frontend/src/components/common/SheetModal.tsx",
+          "operation": "create",
+          "description": "Create a consistent modal/sheet pattern for mobile (e.g., tool settings, export dialog). Use shadcn-ui dialog/sheet primitives (Verify the component's usage instructions before implementing.)"
+        },
+        {
+          "path": "frontend/src/components/common/Controls.tsx",
+          "operation": "create",
+          "description": "Create shared UI controls used across editors (segmented tabs, sliders, toggles). Use shadcn-ui slider/tabs where appropriate (Verify the component's usage instructions before implementing.)"
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Offline-first local data layer for projects, imported media metadata, and downloaded template caches with graceful offline handling.",
+      "acceptanceCriteria": [
+        "Projects list persists across refreshes and is available offline.",
+        "Template downloads are cached locally; subsequent opens do not require network access.",
+        "The app gracefully handles offline mode (no crashes; user sees offline indicators where relevant)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/storage/indexedDb.ts",
+          "operation": "create",
+          "description": "Implement an IndexedDB helper (open DB, read/write/delete, versioning) for projects, template payload caches, and media metadata (lightweight, offline-first)."
+        },
+        {
+          "path": "frontend/src/storage/models.ts",
+          "operation": "create",
+          "description": "Define frontend-only types for locally stored project metadata/editor state, media metadata, and cached template payloads (no backend schema details)."
+        },
+        {
+          "path": "frontend/src/storage/projectsStore.ts",
+          "operation": "create",
+          "description": "Create a projects storage module providing list/search/sort/put/delete/duplicate operations backed by IndexedDB; optimized for instant load on repeat visits."
+        },
+        {
+          "path": "frontend/src/storage/templatesCache.ts",
+          "operation": "create",
+          "description": "Create a template download/cache module that stores template payloads and metadata locally; supports cache lookup by id/version and offline availability."
+        },
+        {
+          "path": "frontend/src/hooks/useOfflineStatus.ts",
+          "operation": "create",
+          "description": "Add a small hook that tracks navigator.onLine plus online/offline events and exposes an offline flag for UI indicators."
+        },
+        {
+          "path": "frontend/src/components/common/OfflineBanner.tsx",
+          "operation": "create",
+          "description": "Add an unobtrusive offline indicator banner/toast shown when offline and used on key screens (Home/Templates/Projects/Editors). Use shadcn-ui toast/alert patterns if available (Verify the component's usage instructions before implementing.)"
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire offline status provider/UI: show offline indicator where relevant and ensure screens use local storage modules for initial render even without network."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Templates section with the specified preloaded Video/Photo templates, editable in editors, downloadable and cached for offline use.",
+      "acceptanceCriteria": [
+        "Templates screen shows the listed template items grouped by Video/Photo.",
+        "User can open a template into an editor with editable layers/fields (e.g., text fields, placeholder media) and save as a new project.",
+        "Downloading a template once makes it available offline on subsequent app loads.",
+        "Backend provides a canonical template catalog endpoint (or config) that the frontend consumes."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/templates/preloadedCatalog.ts",
+          "operation": "create",
+          "description": "Define the required preloaded template catalog entries (Video: TikTok intro, YouTube intro, Slideshow, Birthday video, Business promo; Photo: Instagram post, YouTube thumbnail, Poster, Resume cover, Flyer) with minimal editable fields and default layer definitions."
+        },
+        {
+          "path": "frontend/src/features/templates/templatesApi.ts",
+          "operation": "create",
+          "description": "Implement a frontend templates data loader that merges preloaded catalog with backend-provided template metadata (via existing actor template methods) when available, while remaining usable offline from cache."
+        },
+        {
+          "path": "frontend/src/features/templates/useTemplates.ts",
+          "operation": "create",
+          "description": "Create React Query hooks for listing templates, reading a single template, and tracking downloaded/offline availability; prefer cached/local data when offline."
+        },
+        {
+          "path": "frontend/src/screens/TemplatesScreen.tsx",
+          "operation": "modify",
+          "description": "Render the grouped Video/Photo template grid/list, show empty state when none, show download/cached state, and wire navigation into the appropriate editor with the template instantiated. Use shadcn-ui card/badge components for consistent styling (Verify the component's usage instructions before implementing.)"
+        },
+        {
+          "path": "frontend/src/features/templates/TemplateDetailsSheet.tsx",
+          "operation": "create",
+          "description": "Add a mobile sheet/modal for template preview, description, entitlement badge, and actions: Download for offline / Use template."
+        },
+        {
+          "path": "frontend/src/features/projects/projectInstantiation.ts",
+          "operation": "create",
+          "description": "Implement logic to instantiate a template into a new editable project (video or photo), assign a new local project id, and persist initial editor state to IndexedDB."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add route wiring for opening a template into the Video Editor or Photo Editor (e.g., an editor route that accepts a local project id created from a template)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Offline-capable video editor with timeline UI, multi-layer composition, core editing tools, touch pinch-to-zoom, and export at 720p/1080p without watermark.",
+      "acceptanceCriteria": [
+        "Timeline UI supports multiple tracks/layers and a playhead.",
+        "User can add/edit at least: a text layer and a sticker layer; trim/split a clip; adjust speed; apply at least one filter/color adjustment.",
+        "Pinch-to-zoom (or equivalent) works on the timeline on touch devices.",
+        "Export flow allows selecting 720p/1080p and produces a downloadable file without watermark branding."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/video-editor/VideoEditorScreen.tsx",
+          "operation": "create",
+          "description": "Create the main Video Editor screen: preview area, tool drawer, timeline section, play controls, and save-to-project behavior; ensure it works offline using local project state."
+        },
+        {
+          "path": "frontend/src/video-editor/state/videoProjectState.ts",
+          "operation": "create",
+          "description": "Define the video project editor state model (tracks/layers, clip ranges, speed, basic effects) and serialization to/from local storage."
+        },
+        {
+          "path": "frontend/src/video-editor/timeline/Timeline.tsx",
+          "operation": "create",
+          "description": "Implement a timeline with multi-track lanes, a draggable playhead, and basic clip rendering. Use consistent motion/transition rules from the design system."
+        },
+        {
+          "path": "frontend/src/video-editor/timeline/usePinchZoom.ts",
+          "operation": "create",
+          "description": "Implement touch-friendly pinch-to-zoom (or equivalent) for the timeline scale using Pointer Events; update timeline zoom state smoothly on mobile."
+        },
+        {
+          "path": "frontend/src/video-editor/tools/TextTool.tsx",
+          "operation": "create",
+          "description": "Provide a tool to add/edit a text layer (content, font size, timing) and persist changes to the project state. Use shadcn-ui inputs/selects where appropriate (Verify the component's usage instructions before implementing.)"
+        },
+        {
+          "path": "frontend/src/video-editor/tools/StickerTool.tsx",
+          "operation": "create",
+          "description": "Provide a tool to add a sticker layer (from a small built-in sticker set) and position/scale it over time; persist to project state."
+        },
+        {
+          "path": "frontend/src/video-editor/tools/TrimSplitTool.tsx",
+          "operation": "create",
+          "description": "Implement trim and split operations for a selected clip (state-only operations), updating clip segments on the timeline."
+        },
+        {
+          "path": "frontend/src/video-editor/tools/SpeedTool.tsx",
+          "operation": "create",
+          "description": "Implement speed control for a selected clip (state + preview playback rate), persisted to the project state."
+        },
+        {
+          "path": "frontend/src/video-editor/tools/ColorFilterTool.tsx",
+          "operation": "create",
+          "description": "Implement at least one filter/color adjustment (e.g., brightness/contrast or a LUT-like preset) applied in preview rendering and persisted to project state."
+        },
+        {
+          "path": "frontend/src/video-editor/tools/TransitionsTool.tsx",
+          "operation": "create",
+          "description": "Implement a basic transitions selector for clip boundaries (at least one transition type) and store the chosen transition in state (rendered as a simple crossfade in preview where feasible)."
+        },
+        {
+          "path": "frontend/src/video-editor/tools/MusicLibraryTool.tsx",
+          "operation": "create",
+          "description": "Provide a small built-in music library selector (local bundled audio assets or user-selected file metadata) to attach an audio layer; ensure offline availability for built-in items."
+        },
+        {
+          "path": "frontend/src/video-editor/rendering/previewRenderer.ts",
+          "operation": "create",
+          "description": "Implement a lightweight preview renderer that composes layers (video/text/stickers) with basic effects for on-device preview without requiring network access."
+        },
+        {
+          "path": "frontend/src/video-editor/export/ExportDialog.tsx",
+          "operation": "create",
+          "description": "Implement export UX: choose 720p/1080p, show progress, then trigger a browser download; ensure no watermark branding is added. Use shadcn-ui dialog/progress components (Verify the component's usage instructions before implementing.)"
+        },
+        {
+          "path": "frontend/src/video-editor/export/videoExporter.ts",
+          "operation": "create",
+          "description": "Implement a browser-based export pipeline (e.g., canvas composition + MediaRecorder where supported) that produces a downloadable file at selected resolution; include fallbacks/guardrails for unsupported devices."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire navigation/routes to open VideoEditorScreen for creating new video projects and opening existing video projects from Projects/Templates."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Offline-capable photo editor with crop/resize, filters/presets, brightness/contrast/saturation, text/stickers, background blur/removal, and export JPG/PNG.",
+      "acceptanceCriteria": [
+        "User can import/select an image into the photo editor and apply crop/resize and at least one filter.",
+        "Brightness/contrast/saturation controls update the preview and persist to the saved project.",
+        "Export produces JPG or PNG as selected.",
+        "Background blur is available; background removal is exposed as a tool (may be a basic/approximate implementation)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/photo-editor/PhotoEditorScreen.tsx",
+          "operation": "create",
+          "description": "Create the main Photo Editor screen: image preview canvas, tool controls, and save-to-project behavior; works fully offline with local project state."
+        },
+        {
+          "path": "frontend/src/photo-editor/state/photoProjectState.ts",
+          "operation": "create",
+          "description": "Define photo project editor state (source image reference, crop/transform, adjustments, overlays) and serialization to/from local storage."
+        },
+        {
+          "path": "frontend/src/photo-editor/tools/CropResizeTool.tsx",
+          "operation": "create",
+          "description": "Implement crop/resize UI and apply to preview; persist crop parameters to state. Use shadcn-ui sliders/inputs as needed (Verify the component's usage instructions before implementing.)"
+        },
+        {
+          "path": "frontend/src/photo-editor/tools/FiltersTool.tsx",
+          "operation": "create",
+          "description": "Provide at least one preset filter (e.g., warm/mono) applied via canvas/CSS filter pipeline and persisted to state."
+        },
+        {
+          "path": "frontend/src/photo-editor/tools/AdjustmentsTool.tsx",
+          "operation": "create",
+          "description": "Implement brightness/contrast/saturation sliders that update preview live and persist values to state."
+        },
+        {
+          "path": "frontend/src/photo-editor/tools/TextStickerTools.tsx",
+          "operation": "create",
+          "description": "Provide tools to add/edit text overlays and sticker overlays (position/scale/rotation) and persist to state."
+        },
+        {
+          "path": "frontend/src/photo-editor/tools/BackgroundBlurTool.tsx",
+          "operation": "create",
+          "description": "Implement background blur (e.g., approximate blur with masked subject region optional, or global blur with foreground overlay) and persist settings to state."
+        },
+        {
+          "path": "frontend/src/photo-editor/tools/BackgroundRemovalTool.tsx",
+          "operation": "create",
+          "description": "Expose a basic/approximate background removal action (e.g., simple segmentation heuristic or edge-based matting) with clear labeling; persist resulting mask/setting to state."
+        },
+        {
+          "path": "frontend/src/photo-editor/export/PhotoExportDialog.tsx",
+          "operation": "create",
+          "description": "Implement export UX to choose JPG/PNG and trigger download. Use shadcn-ui dialog/progress components (Verify the component's usage instructions before implementing.)"
+        },
+        {
+          "path": "frontend/src/photo-editor/export/photoExporter.ts",
+          "operation": "create",
+          "description": "Implement canvas-based export to JPG/PNG based on chosen format and current editor state."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire navigation/routes to open PhotoEditorScreen for creating new photo projects and opening existing photo/template-derived photo projects."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Dynamic update system driven by remotely configurable JSON: feature toggles, tool enable/disable, template add/remove; startup version check, background refresh, major-update prompt.",
+      "acceptanceCriteria": [
+        "Backend exposes an endpoint/method returning the remote config JSON (versioned).",
+        "Frontend fetches config on startup, caches it locally, and uses it to show/hide tools and templates without redeploying the frontend bundle.",
+        "Frontend performs a silent background refresh and updates cached config when minor changes occur.",
+        "When config major version changes, the UI displays a clear “New update available” prompt with a refresh action."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/remote-config/types.ts",
+          "operation": "create",
+          "description": "Define the remote-config JSON shape used by the frontend (version fields, feature toggles, tool flags, template overrides, monetization toggle), kept decoupled from backend implementation details."
+        },
+        {
+          "path": "frontend/src/remote-config/remoteConfigClient.ts",
+          "operation": "create",
+          "description": "Implement config fetching with caching to IndexedDB/localStorage, including: load-from-cache-first, network refresh when online, and tolerant parsing/validation. Where available, call a backend capability via the actor; otherwise support a fallback to a hosted JSON asset."
+        },
+        {
+          "path": "frontend/src/remote-config/useRemoteConfig.ts",
+          "operation": "create",
+          "description": "Create React Query hooks for remote config: initial load at startup, silent background refresh, and derived selectors for feature/tool/template availability."
+        },
+        {
+          "path": "frontend/src/components/common/MajorUpdatePrompt.tsx",
+          "operation": "create",
+          "description": "Implement a UI prompt shown when a major config version change is detected; includes a clear refresh action. Use shadcn-ui alert/dialog primitives (Verify the component's usage instructions before implementing.)"
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire remote config bootstrap on app launch, apply toggles to navigation/tools/templates, and mount the major-update prompt when needed."
+        },
+        {
+          "path": "frontend/src/screens/TemplatesScreen.tsx",
+          "operation": "modify",
+          "description": "Apply remote-config template add/remove and template visibility rules; ensure cached templates remain usable offline while honoring toggles."
+        },
+        {
+          "path": "frontend/src/video-editor/VideoEditorScreen.tsx",
+          "operation": "modify",
+          "description": "Apply remote-config tool enable/disable toggles (e.g., transitions, advanced grading) so the editor UI updates without redeploy."
+        },
+        {
+          "path": "frontend/src/photo-editor/PhotoEditorScreen.tsx",
+          "operation": "modify",
+          "description": "Apply remote-config tool enable/disable toggles for photo editor tools so the UI updates without redeploy."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Projects management: local offline list, search/sort, duplicate, delete, and open projects into the correct editor.",
+      "acceptanceCriteria": [
+        "Projects tab lists saved projects and supports opening them into the appropriate editor.",
+        "User can delete a project and it is removed from local storage.",
+        "Project list loads without network access."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/features/projects/useProjects.ts",
+          "operation": "create",
+          "description": "Create hooks for loading/searching/sorting projects from the offline projects store with instant cached render; expose actions (open, duplicate, delete)."
+        },
+        {
+          "path": "frontend/src/features/projects/ProjectsList.tsx",
+          "operation": "create",
+          "description": "Create a mobile-friendly projects list/grid with search input, sort selector, and action menu per project (open/duplicate/delete). Use shadcn-ui input/dropdown/menu components (Verify the component's usage instructions before implementing.)"
+        },
+        {
+          "path": "frontend/src/screens/ProjectsScreen.tsx",
+          "operation": "modify",
+          "description": "Wire the projects hooks and list UI into the Projects tab; show empty state illustration when no projects; ensure open routes into the correct editor type."
+        },
+        {
+          "path": "frontend/src/features/projects/ProjectActions.ts",
+          "operation": "create",
+          "description": "Implement duplicate/delete behaviors (offline-only) and ensure editor state is removed/duplicated atomically in local storage."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Ensure project-open navigation is fully wired from Projects into VideoEditorScreen/PhotoEditorScreen using stored project type metadata."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Feature gating system for optional Free vs Pro entitlements with clear UI indicators and ability to disable monetization entirely via config.",
+      "acceptanceCriteria": [
+        "There is a single source of truth for entitlements (Free/Pro) consumed by the UI to enable/disable gated features.",
+        "Premium templates and advanced tools are visibly marked and cannot be used on Free (with an explanatory prompt).",
+        "A configuration toggle (remote config or build flag) can disable monetization/Pro entirely and remove gating UI."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/entitlements/entitlements.ts",
+          "operation": "create",
+          "description": "Implement a single source of truth for entitlements: derive current entitlement from user profile (when authenticated) and remote-config monetization toggle; expose helpers like canUse(feature) and isProEnabled."
+        },
+        {
+          "path": "frontend/src/entitlements/useEntitlements.ts",
+          "operation": "create",
+          "description": "Create hooks that combine remote config + user profile data into UI-ready gating flags; include a safe offline default (Free) unless cached user profile indicates Pro."
+        },
+        {
+          "path": "frontend/src/components/common/ProBadge.tsx",
+          "operation": "create",
+          "description": "Add a small consistent Pro badge/lock indicator for premium templates/tools. Use shadcn-ui badge components if available (Verify the component's usage instructions before implementing.)"
+        },
+        {
+          "path": "frontend/src/components/common/UpsellPrompt.tsx",
+          "operation": "create",
+          "description": "Create an explanatory prompt/sheet shown when a gated action is attempted on Free; must keep app functional and allow dismissal. Use shadcn-ui dialog/sheet primitives (Verify the component's usage instructions before implementing.)"
+        },
+        {
+          "path": "frontend/src/screens/TemplatesScreen.tsx",
+          "operation": "modify",
+          "description": "Mark premium templates, prevent use when on Free (show UpsellPrompt), and hide all gating UI entirely when monetization is disabled by remote config."
+        },
+        {
+          "path": "frontend/src/video-editor/VideoEditorScreen.tsx",
+          "operation": "modify",
+          "description": "Gate advanced transitions/advanced color grading controls behind Pro; keep basic tools available on Free; hide gating UI when monetization is disabled by remote config."
+        },
+        {
+          "path": "frontend/src/remote-config/types.ts",
+          "operation": "modify",
+          "description": "Include monetization enable/disable toggle and gated feature flags in the remote-config type so the UI can fully remove gating when disabled."
+        },
+        {
+          "path": "frontend/src/features/auth/UserProfileGate.tsx",
+          "operation": "create",
+          "description": "Implement a small wrapper that loads the caller profile (when authenticated) and exposes it to the entitlement system; ensure profile is cached and cleared on logout. Use the authorization component’s frontend guidance (Verify the component's usage instructions before implementing.)"
+        }
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "summary": "Add repo documentation describing frontend architecture: folder structure, state management, offline storage, editor approach, and dynamic update flow.",
+      "acceptanceCriteria": [
+        "Repo contains a readable architecture document explaining major modules and data flows.",
+        "Document includes how templates are defined, downloaded, cached, and instantiated into editable projects.",
+        "Document describes how remote config is fetched, cached, and applied (including major update prompt)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/ARCHITECTURE.md",
+          "operation": "create",
+          "description": "Write the frontend architecture document covering: folder/modules, React Query usage, IndexedDB offline strategy, project/template caching model, editor engines (video/photo) approach, and the dynamic update flow (startup load, version check, background refresh, major-update prompt)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "summary": "Include generated static brand/UI assets under frontend/public/assets/generated and reference them in the UI.",
+      "acceptanceCriteria": [
+        "Generated images exist under frontend/public/assets/generated and are referenced by the UI (e.g., app header/landing, empty states).",
+        "Assets are loaded directly by the frontend (not via backend calls)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/clipforge-app-icon.dim_1024x1024.png",
+          "operation": "create",
+          "description": "Add the generated app icon asset at the required path and filename."
+        },
+        {
+          "path": "frontend/public/assets/generated/clipforge-splash.dim_1242x2688.png",
+          "operation": "create",
+          "description": "Add the generated splash/hero illustration asset at the required path and filename."
+        },
+        {
+          "path": "frontend/public/assets/generated/clipforge-empty-projects.dim_1200x800.png",
+          "operation": "create",
+          "description": "Add the generated Projects empty-state illustration asset at the required path and filename."
+        },
+        {
+          "path": "frontend/public/assets/generated/clipforge-empty-templates.dim_1200x800.png",
+          "operation": "create",
+          "description": "Add the generated Templates empty-state illustration asset at the required path and filename."
+        },
+        {
+          "path": "frontend/src/screens/HomeScreen.tsx",
+          "operation": "modify",
+          "description": "Reference frontend/public/assets/generated/clipforge-splash.dim_1242x2688.png in the Home UI (e.g., hero/header area) as a static asset."
+        },
+        {
+          "path": "frontend/src/screens/ProjectsScreen.tsx",
+          "operation": "modify",
+          "description": "Reference frontend/public/assets/generated/clipforge-empty-projects.dim_1200x800.png in the Projects empty state UI as a static asset."
+        },
+        {
+          "path": "frontend/src/screens/TemplatesScreen.tsx",
+          "operation": "modify",
+          "description": "Reference frontend/public/assets/generated/clipforge-empty-templates.dim_1200x800.png in the Templates empty state UI as a static asset."
+        },
+        {
+          "path": "frontend/index.html",
+          "operation": "modify",
+          "description": "Wire the app icon by referencing frontend/public/assets/generated/clipforge-app-icon.dim_1024x1024.png in the document head (favicon / app icon metadata as appropriate for the existing setup)."
+        }
+      ]
+    }
+  ]
+}

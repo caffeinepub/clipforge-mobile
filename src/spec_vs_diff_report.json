@@ -1,0 +1,172 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-15T11:46:33.067Z",
+  "summary": "Diff adds a new Motoko actor with template metadata + user profile APIs (with admin/user permissions), and a new React app shell using TanStack Router with a persistent bottom tab bar, theme provider/toggle, offline banner, major update prompt UI, and basic entitlements (Free/Pro) gating helpers. Several core BuildRequest items (remote config backend, offline storage implementation evidence, full template catalog/editing, editors, docs, and generated assets) are not evidenced in the provided diff summary.",
+  "missing_requirements": [
+    {
+      "id": "REQ-2",
+      "requirement": "Create a cohesive “CapCut-inspired” editing UI/UX theme with documented guidelines and consistent styling/motion across key screens; avoid blue/purple as primary accent.",
+      "reason": "Theme toggle/provider exists, but the diff summary does not show any documented design theme guidelines (typography/spacing/motion) or a defined non-blue/purple primary palette applied across key screens/editors.",
+      "evidence": [
+        "frontend/src/features/theme/ThemeProvider.tsx",
+        "frontend/src/features/theme/ThemeToggle.tsx",
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Implement an offline-first local data layer for projects, imported media metadata, and downloaded templates with caching and graceful offline handling.",
+      "reason": "An offline banner/hook exists, and code references storage modules (projectsStore/templatesCache), but the diff summary does not include the actual storage layer implementation (IndexedDB/localStorage persistence, media metadata persistence, template download/cache behavior).",
+      "evidence": [
+        "frontend/src/components/common/OfflineBanner.tsx",
+        "frontend/src/hooks/useOfflineStatus.ts",
+        "frontend/src/features/projects/useProjects.ts",
+        "frontend/src/features/projects/projectInstantiation.ts",
+        "frontend/src/features/templates/templatesApi.ts",
+        "frontend/src/features/templates/useTemplates.ts"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Templates section with preloaded editable template catalog entries (specified Video and Photo lists), editable layers/fields, save as new project, downloadable and cached for offline use; backend provides canonical template catalog endpoint/config.",
+      "reason": "Backend exposes template metadata queries, and frontend merges a PRELOADED_TEMPLATES list, but the diff summary does not show the required specific template entries, grouping by Video/Photo UI, any template payload download mechanism, or editor instantiation with editable layers/fields beyond creating a project metadata stub.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/features/templates/templatesApi.ts",
+        "frontend/src/features/projects/projectInstantiation.ts"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "Offline-capable video editor with timeline multi-layer composition and operations (trim, split, crop, transitions, text animations, music selection, speed control, filters/color adjustments, pinch-to-zoom timeline, export 720p/1080p no watermark).",
+      "reason": "Routes reference a VideoEditorScreen, but the diff summary provides no evidence of timeline UI, layer system, editing operations, touch pinch-to-zoom, or export implementation.",
+      "evidence": [
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "Offline-capable photo editor supporting crop/resize, filters/presets, brightness/contrast/saturation, text/stickers, background blur, basic background removal, export JPG/PNG.",
+      "reason": "Routes reference a PhotoEditorScreen, but the diff summary provides no evidence of photo editing tools, persistence of adjustments, background blur/removal, or export implementation.",
+      "evidence": [
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "requirement": "Dynamic update architecture via remotely configurable JSON (feature toggles/tools/templates/remote template repo), version check on launch, silent background refresh, and major version update prompt; backend exposes versioned remote config JSON.",
+      "reason": "A MajorUpdatePrompt UI exists and a useRemoteConfig hook is referenced, but the diff summary does not show backend remote-config/version APIs, the remote-config hook/types implementation, startup fetch/caching, background refresh logic, or template repo download+cache behavior driven by config.",
+      "evidence": [
+        "frontend/src/components/common/MajorUpdatePrompt.tsx",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "requirement": "Projects management: list, search/sort, duplicate, delete, open projects; stored locally and works offline.",
+      "reason": "Hooks for list/search/delete/duplicate are added, but the diff summary does not show the Projects screen UI, sort behavior, open-routing behavior, or the underlying local persistence implementation in storage/projectsStore.",
+      "evidence": [
+        "frontend/src/features/projects/useProjects.ts",
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "requirement": "Feature-gating system Free vs Pro with single source of truth, premium marking + explanatory prompt, and a config toggle to disable monetization/gating UI entirely.",
+      "reason": "Entitlements helpers and upsell UI exist, and monetization toggle is read from RemoteConfig, but the diff summary does not show templates/tools being marked as premium, enforcement preventing use on Free with explanatory prompt, or the actual remote config implementation providing the toggle.",
+      "evidence": [
+        "frontend/src/entitlements/entitlements.ts",
+        "frontend/src/entitlements/useEntitlements.ts",
+        "frontend/src/components/common/UpsellPrompt.tsx",
+        "frontend/src/components/common/ProBadge.tsx"
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "requirement": "Backend Motoko APIs for (a) remote config/versioning, (b) template catalog metadata, (c) optional user-scoped cloud sync scaffolding toggleable by config (II auth if enabled).",
+      "reason": "Backend provides template metadata APIs and user profile storage, but no remote config/versioning API is present, and no user-scoped project CRUD/sync scaffolding is evidenced.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "requirement": "Add in-repo architecture documentation covering folder structure, state management, offline storage, editor engine approach, and dynamic update system flow.",
+      "reason": "No documentation file is shown in the diff summary.",
+      "evidence": []
+    },
+    {
+      "id": "REQ-12",
+      "requirement": "Generate and include required static brand/UI assets under frontend/public/assets/generated and reference them from the UI.",
+      "reason": "No generated asset files or UI references to frontend/public/assets/generated are shown in the diff summary.",
+      "evidence": []
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Admin/user permissioned access-control system with secret-token initialization and admin-only template mutation APIs.",
+      "reason": "BuildRequest did not ask for an admin token flow or access-control initialization via a URL secret parameter; it only required remote config/template catalog APIs and optional cloud sync scaffolding.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/useActor.ts"
+      ]
+    },
+    {
+      "description": "Mandatory authenticated user profile onboarding gate that forces setting a display name before using the app.",
+      "reason": "BuildRequest did not require a name/profile setup modal gate; it only mentioned II auth if needed for cloud sync and Pro entitlements gating.",
+      "evidence": [
+        "frontend/src/features/auth/UserProfileGate.tsx",
+        "frontend/src/App.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.74,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/ARCHITECTURE.md",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/common/BottomTabBar.tsx",
+    "frontend/src/components/common/MajorUpdatePrompt.tsx",
+    "frontend/src/components/common/OfflineBanner.tsx",
+    "frontend/src/components/common/ProBadge.tsx",
+    "frontend/src/components/common/UpsellPrompt.tsx",
+    "frontend/src/entitlements/entitlements.ts",
+    "frontend/src/entitlements/useEntitlements.ts",
+    "frontend/src/features/auth/UserProfileGate.tsx",
+    "frontend/src/features/projects/projectInstantiation.ts",
+    "frontend/src/features/projects/useProjects.ts",
+    "frontend/src/features/templates/templatesApi.ts",
+    "frontend/src/features/templates/useTemplates.ts",
+    "frontend/src/features/theme/ThemeProvider.tsx",
+    "frontend/src/features/theme/ThemeToggle.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useOfflineStatus.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/src/photo-editor/PhotoEditorScreen.tsx",
+    "frontend/src/remote-config/remoteConfigClient.ts",
+    "frontend/src/remote-config/types.ts",
+    "frontend/src/remote-config/useRemoteConfig.ts",
+    "frontend/src/screens/CreateScreen.tsx",
+    "frontend/src/screens/HomeScreen.tsx",
+    "frontend/src/screens/ProfileScreen.tsx",
+    "frontend/src/screens/ProjectsScreen.tsx",
+    "frontend/src/screens/TemplatesScreen.tsx",
+    "frontend/src/storage/indexedDb.ts",
+    "frontend/src/storage/models.ts",
+    "frontend/src/storage/projectsStore.ts",
+    "frontend/src/storage/templatesCache.ts",
+    "frontend/src/templates/preloadedCatalog.ts",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/src/video-editor/VideoEditorScreen.tsx",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

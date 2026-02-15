@@ -1,0 +1,181 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "ClipForge Mobile: a cross-platform (iOS/Android) offline-first native-feeling video & photo editing SaaS-style mobile app inspired by CapCut, with optional cloud sync and optional Pro monetization, featuring templates and a dynamic OTA/remote-config update system.",
+  "architectural_notes": [
+    "Cross-platform mobile app: choose React Native (Expo) or Flutter; must feel native, smooth, and high-performance.",
+    "Offline-first architecture with local persistence (SQLite/AsyncStorage) for projects/assets/templates.",
+    "Use FFmpeg mobile bindings for local media processing and Skia/native rendering for editor canvas UI.",
+    "OTA updates via Expo Updates or CodePush; remote JSON configuration for feature toggles and template/tool enablement.",
+    "Remote template repository with download-and-cache for offline availability; silent background updates with major-update prompt.",
+    "Optional cloud sync layer (Firebase or Supabase).",
+    "Optional Pro monetization via feature gating + Stripe or in-app purchase integration."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- App icon with a minimal clip/forge motif, dark-friendly, flat vector style (clipforge-app-icon.dim_1024x1024.png)\n- Splash/hero illustration showing abstract timeline strips and photo frames, clean modern style (clipforge-splash.dim_1242x2688.png)\n- Empty state illustration for Projects (minimal editor-themed illustration) (clipforge-empty-projects.dim_1200x800.png)\n- Empty state illustration for Templates (cards/grid themed illustration) (clipforge-empty-templates.dim_1200x800.png)",
+  "existing_features": [
+    {
+      "id": "feature-implement-a-mobile-first-app-like-web-ui-pwa-style-for-clipforge-mobile-that-runs-smoothly-on-mobile-browsers-ios-safari-android-chrome-with-bottom-navigation-tabs-home-templates-create-projects-profile-include-dark-mode-and-light-mode",
+      "title": "Implement a mobile-first, app-like web UI (PWA-style) for “ClipForge Mobile” that runs smoothly on mobile browsers (iOS Safari/Android Chrome) with bottom navigation tabs: Home, Templates, Create, Projects, Profile; include dark mode and light mode.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-cohesive-capcut-inspired-editing-ui-ux-theme-without-copying-branding-with-a-clean-modern-saas-look-typography-spacing-system-component-styles-motion-transition-guidelines-and-consistent-use-across-the-app-avoid-blue-purple-as-primary-colors",
+      "title": "Create a cohesive “CapCut-inspired” editing UI/UX theme (without copying branding) with a clean modern SaaS look: typography, spacing system, component styles, motion/transition guidelines, and consistent use across the app (avoid blue/purple as primary colors).",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-an-offline-first-local-data-layer-for-projects-imported-media-metadata-and-downloaded-templates-with-instant-loading-on-repeat-visits-use-browser-storage-such-as-indexeddb-localstorage-as-appropriate",
+      "title": "Implement an offline-first local data layer for projects, imported media metadata, and downloaded templates with instant loading on repeat visits (use browser storage such as IndexedDB/localStorage as appropriate).",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-a-templates-section-with-preloaded-editable-template-catalog-entries-for-video-tiktok-intro-youtube-intro-slideshow-birthday-video-business-promo-and-photo-instagram-post-youtube-thumbnail-poster-resume-cover-flyer-each-template-must-be-editable-and-downloadable-cached-for-offline-use",
+      "title": "Build a Templates section with preloaded editable template catalog entries for: Video (TikTok intro, YouTube intro, Slideshow, Birthday video, Business promo) and Photo (Instagram post, YouTube thumbnail, Poster, Resume cover, Flyer). Each template must be editable and downloadable/cached for offline use.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-video-editor-experience-offline-capable-with-a-timeline-based-ui-supporting-multi-layer-composition-video-audio-text-stickers-and-essential-operations-trim-split-crop-transitions-text-animations-music-library-selection-speed-control-filters-color-adjustments-and-export-options-for-720p-and-1080p-with-no-watermark",
+      "title": "Implement a video editor experience (offline-capable) with a timeline-based UI supporting multi-layer composition (video, audio, text, stickers) and essential operations: trim, split, crop, transitions, text animations, music library selection, speed control, filters/color adjustments, and export options for 720p and 1080p with no watermark.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-photo-editor-experience-offline-capable-supporting-crop-resize-filters-presets-brightness-contrast-saturation-controls-adding-text-and-stickers-background-blur-a-basic-background-removal-option-and-export-to-jpg-png",
+      "title": "Implement a photo editor experience (offline-capable) supporting crop/resize, filters/presets, brightness/contrast/saturation controls, adding text and stickers, background blur, a basic background removal option, and export to JPG/PNG.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-dynamic-update-architecture-using-a-remotely-configurable-json-document-for-feature-toggles-enabling-disabling-tools-adding-removing-templates-and-a-remote-template-repository-with-download-cache-include-version-check-on-app-launch-silent-background-refresh-of-config-and-a-user-prompt-when-a-major-version-change-is-detected",
+      "title": "Implement a dynamic update architecture using a remotely configurable JSON document for: feature toggles, enabling/disabling tools, adding/removing templates, and a remote template repository with download + cache. Include version check on app launch, silent background refresh of config, and a user prompt when a major version change is detected.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-projects-management-list-search-sort-duplicate-delete-and-open-projects-video-photo-template-derived-store-project-metadata-and-editor-state-locally-for-offline-use",
+      "title": "Add Projects management: list, search/sort, duplicate, delete, and open projects (video/photo/template-derived). Store project metadata and editor state locally for offline use.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-feature-gating-system-that-supports-free-vs-pro-entitlements-as-an-optional-toggle-pro-gates-premium-templates-advanced-transitions-and-advanced-color-grading-controls-include-ui-indicators-upsell-entry-points-but-keep-the-app-functional-on-free",
+      "title": "Add a feature-gating system that supports Free vs Pro entitlements as an optional toggle: Pro gates premium templates, advanced transitions, and advanced color grading controls; include UI indicators/upsell entry points but keep the app functional on Free.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-provide-an-app-architecture-deliverable-inside-the-repo-documentation-describing-folder-structure-state-management-approach-offline-storage-strategy-editor-engine-approach-and-the-dynamic-update-system-flow-startup-version-check-background-refresh",
+      "title": "Provide an app architecture deliverable inside the repo (documentation) describing: folder structure, state management approach, offline storage strategy, editor engine approach, and the dynamic update system flow (startup/version check/background refresh).",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-generate-and-include-required-static-brand-ui-assets-icon-splash-hero-and-empty-state-illustrations-and-render-them-from-the-frontend-as-static-files-under-frontend-public-assets-generated",
+      "title": "Generate and include required static brand/UI assets (icon, splash/hero, and empty-state illustrations) and render them from the frontend as static files under frontend/public/assets/generated.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Set up cross-platform mobile app foundation (React Native Expo or Flutter) with smooth, high-performance UI and bottom navigation (Home, Templates, Create, Projects, Profile) plus dark/light mode.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Implement offline-first local data layer (SQLite/AsyncStorage) for projects, assets, templates cache, and instant loading.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Build offline video editor: timeline-based, multi-layer (video/audio/text/stickers), trim/split/crop, transitions, text animations, music library, speed control, filters/color grading, export 720p/1080p, no watermark.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Build offline photo editor: crop/resize, filters/presets, brightness/contrast/saturation, text/stickers, blur background, basic on-device background removal, export JPG/PNG.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Add editable templates section with preloaded free templates (video + photo) that download once, are stored locally, available offline, and load instantly.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Implement dynamic update architecture: OTA updates + remote JSON config for feature toggles/tools/templates, remote template repository (download & cache), version check on launch, silent background updates, and major-update prompt.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Optional cloud sync integration (Firebase or Supabase) to sync projects/assets across devices.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Optional SaaS monetization toggle: Free vs Pro plan with premium templates/advanced transitions/advanced color grading, feature gating, and Stripe or in-app purchases.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Editor rendering/engine setup using FFmpeg mobile bindings for processing and Skia/native rendering for canvas and gesture-based editing (e.g., pinch-to-zoom timeline).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Produce deliverables: full app architecture, folder structure, state management approach, OTA update setup, and store-ready build configuration for App Store/Play Store.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-20",
+      "summary": "Backend: implement Motoko canister APIs for (a) remote config/versioning, (b) template catalog metadata, and (c) optional user-scoped cloud sync scaffolding that can be turned off by config (no third-party auth; use Internet Identity if authentication is needed).",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "ClipForge Mobile",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

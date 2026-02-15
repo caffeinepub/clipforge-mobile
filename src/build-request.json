@@ -1,0 +1,265 @@
+{
+  "kind": "build_request",
+  "title": "ClipForge Mobile (Web/PWA on Internet Computer): Offline-capable video & photo editor with templates + remote config/OTA-like updates",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Implement a mobile-first, app-like web UI (PWA-style) for “ClipForge Mobile” that runs smoothly on mobile browsers (iOS Safari/Android Chrome) with bottom navigation tabs: Home, Templates, Create, Projects, Profile; include dark mode and light mode.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Bottom navigation:\nHome\nTemplates\nCreate\nProjects\nProfile\nDark & light mode\nSmooth animations"
+        ]
+      },
+      "acceptanceCriteria": [
+        "App has a persistent bottom navigation with the 5 tabs and sensible routes/screens for each.",
+        "A theme toggle (or system-aware theme) switches between dark and light mode and applies consistently across screens.",
+        "UI is mobile-first and works at common phone widths without horizontal scrolling."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Create a cohesive “CapCut-inspired” editing UI/UX theme (without copying branding) with a clean modern SaaS look: typography, spacing system, component styles, motion/transition guidelines, and consistent use across the app (avoid blue/purple as primary colors).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "inspired by the UI/UX style of CapCut",
+          "Clean modern SaaS look",
+          "Smooth animations"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A documented design theme is applied across key screens (Home/Templates/Create/Projects/Profile + editor screens).",
+        "Primary color palette does not use blue/purple as the main accent.",
+        "Interactive elements (buttons, tabs, modals, sliders) share consistent styling and motion."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Implement an offline-first local data layer for projects, imported media metadata, and downloaded templates with instant loading on repeat visits (use browser storage such as IndexedDB/localStorage as appropriate).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Offline-first architecture",
+          "Local storage using SQLite or AsyncStorage",
+          "Download once → available offline\nStored locally\nLoad instantly"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Projects list persists across refreshes and is available offline.",
+        "Template downloads are cached locally; subsequent opens do not require network access.",
+        "The app gracefully handles offline mode (no crashes; user sees offline indicators where relevant)."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Build a Templates section with preloaded editable template catalog entries for: Video (TikTok intro, YouTube intro, Slideshow, Birthday video, Business promo) and Photo (Instagram post, YouTube thumbnail, Poster, Resume cover, Flyer). Each template must be editable and downloadable/cached for offline use.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Preload free editable templates:\nVideo:\nTikTok intro\nYouTube intro\nSlideshow\nBirthday video\nBusiness promo\nPhoto:\nInstagram post\nYouTube thumbnail\nPoster\nResume cover\nFlyer\nTemplates must:\nBe editable\nDownload once → available offline\nStored locally\nLoad instantly"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Templates screen shows the listed template items grouped by Video/Photo.",
+        "User can open a template into an editor with editable layers/fields (e.g., text fields, placeholder media) and save as a new project.",
+        "Downloading a template once makes it available offline on subsequent app loads.",
+        "Backend provides a canonical template catalog endpoint (or config) that the frontend consumes."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Implement a video editor experience (offline-capable) with a timeline-based UI supporting multi-layer composition (video, audio, text, stickers) and essential operations: trim, split, crop, transitions, text animations, music library selection, speed control, filters/color adjustments, and export options for 720p and 1080p with no watermark.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "🎬 Video Editor Features (Offline)\nTimeline-based editor\nMulti-layer editing (video, audio, text, stickers)\nTrim, split, crop\nAdd transitions\nText animations\nMusic library\nSpeed control\nFilters & color grading\nExport 720p / 1080p\nNo watermark (Free version)",
+          "Gesture-based editing (pinch to zoom timeline)"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Timeline UI supports multiple tracks/layers and a playhead.",
+        "User can add/edit at least: a text layer and a sticker layer; trim/split a clip; adjust speed; apply at least one filter/color adjustment.",
+        "Pinch-to-zoom (or equivalent) works on the timeline on touch devices.",
+        "Export flow allows selecting 720p/1080p and produces a downloadable file without watermark branding."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Implement a photo editor experience (offline-capable) supporting crop/resize, filters/presets, brightness/contrast/saturation controls, adding text and stickers, background blur, a basic background removal option, and export to JPG/PNG.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "📸 Photo Editor Features (Offline)\nCrop / resize\nFilters & presets\nBrightness / contrast / saturation\nAdd text & stickers\nBlur background\nBasic background removal (on-device AI)\nExport JPG / PNG"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can import/select an image into the photo editor and apply crop/resize and at least one filter.",
+        "Brightness/contrast/saturation controls update the preview and persist to the saved project.",
+        "Export produces JPG or PNG as selected.",
+        "Background blur is available; background removal is exposed as a tool (may be a basic/approximate implementation)."
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Implement a dynamic update architecture using a remotely configurable JSON document for: feature toggles, enabling/disabling tools, adding/removing templates, and a remote template repository with download + cache. Include version check on app launch, silent background refresh of config, and a user prompt when a major version change is detected.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "🔄 Auto-Updatable System (Very Important)\nImplement dynamic update architecture:\nOTA updates for app logic (no store re-submission required)\nRemote JSON config for:\nFeature toggles\nAdding/removing templates\nEnabling/disabling tools\nRemote template repository (download & cache)\nVersion check on app launch\nSilent background updates\n“New update available” prompt if major changes"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend exposes an endpoint/method returning the remote config JSON (versioned).",
+        "Frontend fetches config on startup, caches it locally, and uses it to show/hide tools and templates without redeploying the frontend bundle.",
+        "Frontend performs a silent background refresh and updates cached config when minor changes occur.",
+        "When config major version changes, the UI displays a clear “New update available” prompt with a refresh action."
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Add Projects management: list, search/sort, duplicate, delete, and open projects (video/photo/template-derived). Store project metadata and editor state locally for offline use.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Bottom navigation:\n...\nProjects",
+          "Offline-first architecture"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Projects tab lists saved projects and supports opening them into the appropriate editor.",
+        "User can delete a project and it is removed from local storage.",
+        "Project list loads without network access."
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Add a feature-gating system that supports Free vs Pro entitlements as an optional toggle: Pro gates premium templates, advanced transitions, and advanced color grading controls; include UI indicators/upsell entry points but keep the app functional on Free.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "💰 SaaS Monetization (Optional Toggle)\nFree plan: All basic tools\nPro plan:\nPremium templates\nAdvanced transitions\nAdvanced color grading\nStripe or in-app purchase integration\nFeature gating system"
+        ]
+      },
+      "acceptanceCriteria": [
+        "There is a single source of truth for entitlements (Free/Pro) consumed by the UI to enable/disable gated features.",
+        "Premium templates and advanced tools are visibly marked and cannot be used on Free (with an explanatory prompt).",
+        "A configuration toggle (remote config or build flag) can disable monetization/Pro entirely and remove gating UI."
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "text": "Backend: implement Motoko canister APIs for (a) remote config/versioning, (b) template catalog metadata, and (c) optional user-scoped cloud sync scaffolding that can be turned off by config (no third-party auth; use Internet Identity if authentication is needed).",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Cloud sync optional (Firebase or Supabase)",
+          "Remote JSON config",
+          "Remote template repository (download & cache)"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend provides query/call methods to fetch remote config and template catalog metadata.",
+        "APIs are versioned (at least via a version field) so the frontend can detect major/minor changes.",
+        "If cloud sync is enabled, backend provides basic CRUD endpoints for user-scoped project metadata (authentication via Internet Identity when enabled)."
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "text": "Provide an app architecture deliverable inside the repo (documentation) describing: folder structure, state management approach, offline storage strategy, editor engine approach, and the dynamic update system flow (startup/version check/background refresh).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "📦 Deliverables\nFull app architecture\nFolder structure\nState management system\nEditor engine setup\nOTA update setup\nStore-ready build configuration"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Repo contains a readable architecture document explaining major modules and data flows.",
+        "Document includes how templates are defined, downloaded, cached, and instantiated into editable projects.",
+        "Document describes how remote config is fetched, cached, and applied (including major update prompt)."
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "text": "Generate and include required static brand/UI assets (icon, splash/hero, and empty-state illustrations) and render them from the frontend as static files under frontend/public/assets/generated.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "ClipForge Mobile",
+          "Clean modern SaaS look"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Generated images exist under frontend/public/assets/generated and are referenced by the UI (e.g., app header/landing, empty states).",
+        "Assets are loaded directly by the frontend (not via backend calls)."
+      ]
+    }
+  ],
+  "constraints": [
+    "Must use the existing Internet Computer template stack: Motoko backend + React (TypeScript) frontend with Tailwind + React Query; do not introduce React Native/Flutter, Firebase/Supabase, CodePush/Expo Updates, or native mobile bindings.",
+    "Backend must remain a single Motoko actor in backend/main.mo; only add migration.mo if upgrading existing persisted state.",
+    "Do not edit any frontend files under immutable paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui (compose/extend instead).",
+    "Use English for all user-facing text."
+  ],
+  "nonGoals": [
+    "Full native iOS/Android app packaging and App Store/Play Store submission workflows.",
+    "True on-device FFmpeg mobile bindings, Skia/native rendering, and native in-app purchases/Stripe SDK integration.",
+    "Real-time collaboration, chat, WebSockets, push notifications, or third-party authentication providers."
+  ],
+  "imageRequirements": {
+    "required": [
+      "App icon with a minimal clip/forge motif, dark-friendly, flat vector style (clipforge-app-icon.dim_1024x1024.png)",
+      "Splash/hero illustration showing abstract timeline strips and photo frames, clean modern style (clipforge-splash.dim_1242x2688.png)",
+      "Empty state illustration for Projects (minimal editor-themed illustration) (clipforge-empty-projects.dim_1200x800.png)",
+      "Empty state illustration for Templates (cards/grid themed illustration) (clipforge-empty-templates.dim_1200x800.png)"
+    ],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

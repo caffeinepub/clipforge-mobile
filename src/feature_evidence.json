@@ -1,0 +1,256 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-implement-a-mobile-first-app-like-web-ui-pwa-style-for-clipforge-mobile-that-runs-smoothly-on-mobile-browsers-ios-safari-android-chrome-with-bottom-navigation-tabs-home-templates-create-projects-profile-include-dark-mode-and-light-mode",
+      "featureTitle": "Implement a mobile-first, app-like web UI (PWA-style) for “ClipForge Mobile” that runs smoothly on mobile browsers (iOS Safari/Android Chrome) with bottom navigation tabs: Home, Templates, Create, Projects, Profile; include dark mode and light mode.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/features/theme/ThemeProvider.tsx",
+        "frontend/src/features/theme/ThemeToggle.tsx",
+        "frontend/src/index.css",
+        "frontend/src/screens/CreateScreen.tsx",
+        "frontend/src/screens/HomeScreen.tsx",
+        "frontend/src/screens/ProfileScreen.tsx",
+        "frontend/src/screens/ProjectsScreen.tsx",
+        "frontend/src/screens/TemplatesScreen.tsx",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-cohesive-capcut-inspired-editing-ui-ux-theme-without-copying-branding-with-a-clean-modern-saas-look-typography-spacing-system-component-styles-motion-transition-guidelines-and-consistent-use-across-the-app-avoid-blue-purple-as-primary-colors",
+      "featureTitle": "Create a cohesive “CapCut-inspired” editing UI/UX theme (without copying branding) with a clean modern SaaS look: typography, spacing system, component styles, motion/transition guidelines, and consistent use across the app (avoid blue/purple as primary colors).",
+      "files": [
+        "frontend/src/components/common/BottomTabBar.tsx",
+        "frontend/src/index.css"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-an-offline-first-local-data-layer-for-projects-imported-media-metadata-and-downloaded-templates-with-instant-loading-on-repeat-visits-use-browser-storage-such-as-indexeddb-localstorage-as-appropriate",
+      "featureTitle": "Implement an offline-first local data layer for projects, imported media metadata, and downloaded templates with instant loading on repeat visits (use browser storage such as IndexedDB/localStorage as appropriate).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/common/OfflineBanner.tsx",
+        "frontend/src/hooks/useOfflineStatus.ts",
+        "frontend/src/storage/indexedDb.ts",
+        "frontend/src/storage/models.ts",
+        "frontend/src/storage/projectsStore.ts",
+        "frontend/src/storage/templatesCache.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-a-templates-section-with-preloaded-editable-template-catalog-entries-for-video-tiktok-intro-youtube-intro-slideshow-birthday-video-business-promo-and-photo-instagram-post-youtube-thumbnail-poster-resume-cover-flyer-each-template-must-be-editable-and-downloadable-cached-for-offline-use",
+      "featureTitle": "Build a Templates section with preloaded editable template catalog entries for: Video (TikTok intro, YouTube intro, Slideshow, Birthday video, Business promo) and Photo (Instagram post, YouTube thumbnail, Poster, Resume cover, Flyer). Each template must be editable and downloadable/cached for offline use.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/features/projects/projectInstantiation.ts",
+        "frontend/src/features/templates/templatesApi.ts",
+        "frontend/src/features/templates/useTemplates.ts",
+        "frontend/src/screens/TemplatesScreen.tsx",
+        "frontend/src/templates/preloadedCatalog.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-a-video-editor-experience-offline-capable-with-a-timeline-based-ui-supporting-multi-layer-composition-video-audio-text-stickers-and-essential-operations-trim-split-crop-transitions-text-animations-music-library-selection-speed-control-filters-color-adjustments-and-export-options-for-720p-and-1080p-with-no-watermark",
+      "featureTitle": "Implement a video editor experience (offline-capable) with a timeline-based UI supporting multi-layer composition (video, audio, text, stickers) and essential operations: trim, split, crop, transitions, text animations, music library selection, speed control, filters/color adjustments, and export options for 720p and 1080p with no watermark.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/video-editor/VideoEditorScreen.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-a-photo-editor-experience-offline-capable-supporting-crop-resize-filters-presets-brightness-contrast-saturation-controls-adding-text-and-stickers-background-blur-a-basic-background-removal-option-and-export-to-jpg-png",
+      "featureTitle": "Implement a photo editor experience (offline-capable) supporting crop/resize, filters/presets, brightness/contrast/saturation controls, adding text and stickers, background blur, a basic background removal option, and export to JPG/PNG.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/photo-editor/PhotoEditorScreen.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-a-dynamic-update-architecture-using-a-remotely-configurable-json-document-for-feature-toggles-enabling-disabling-tools-adding-removing-templates-and-a-remote-template-repository-with-download-cache-include-version-check-on-app-launch-silent-background-refresh-of-config-and-a-user-prompt-when-a-major-version-change-is-detected",
+      "featureTitle": "Implement a dynamic update architecture using a remotely configurable JSON document for: feature toggles, enabling/disabling tools, adding/removing templates, and a remote template repository with download + cache. Include version check on app launch, silent background refresh of config, and a user prompt when a major version change is detected.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/common/MajorUpdatePrompt.tsx",
+        "frontend/src/photo-editor/PhotoEditorScreen.tsx",
+        "frontend/src/remote-config/remoteConfigClient.ts",
+        "frontend/src/remote-config/types.ts",
+        "frontend/src/remote-config/useRemoteConfig.ts",
+        "frontend/src/screens/TemplatesScreen.tsx",
+        "frontend/src/video-editor/VideoEditorScreen.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-projects-management-list-search-sort-duplicate-delete-and-open-projects-video-photo-template-derived-store-project-metadata-and-editor-state-locally-for-offline-use",
+      "featureTitle": "Add Projects management: list, search/sort, duplicate, delete, and open projects (video/photo/template-derived). Store project metadata and editor state locally for offline use.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/features/projects/useProjects.ts",
+        "frontend/src/screens/ProjectsScreen.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-feature-gating-system-that-supports-free-vs-pro-entitlements-as-an-optional-toggle-pro-gates-premium-templates-advanced-transitions-and-advanced-color-grading-controls-include-ui-indicators-upsell-entry-points-but-keep-the-app-functional-on-free",
+      "featureTitle": "Add a feature-gating system that supports Free vs Pro entitlements as an optional toggle: Pro gates premium templates, advanced transitions, and advanced color grading controls; include UI indicators/upsell entry points but keep the app functional on Free.",
+      "files": [
+        "frontend/src/components/common/ProBadge.tsx",
+        "frontend/src/components/common/UpsellPrompt.tsx",
+        "frontend/src/entitlements/entitlements.ts",
+        "frontend/src/entitlements/useEntitlements.ts",
+        "frontend/src/features/auth/UserProfileGate.tsx",
+        "frontend/src/remote-config/types.ts",
+        "frontend/src/screens/TemplatesScreen.tsx",
+        "frontend/src/video-editor/VideoEditorScreen.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-provide-an-app-architecture-deliverable-inside-the-repo-documentation-describing-folder-structure-state-management-approach-offline-storage-strategy-editor-engine-approach-and-the-dynamic-update-system-flow-startup-version-check-background-refresh",
+      "featureTitle": "Provide an app architecture deliverable inside the repo (documentation) describing: folder structure, state management approach, offline storage strategy, editor engine approach, and the dynamic update system flow (startup/version check/background refresh).",
+      "files": [
+        "frontend/ARCHITECTURE.md"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-11"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-generate-and-include-required-static-brand-ui-assets-icon-splash-hero-and-empty-state-illustrations-and-render-them-from-the-frontend-as-static-files-under-frontend-public-assets-generated",
+      "featureTitle": "Generate and include required static brand/UI assets (icon, splash/hero, and empty-state illustrations) and render them from the frontend as static files under frontend/public/assets/generated.",
+      "files": [
+        "frontend/index.html",
+        "frontend/src/screens/HomeScreen.tsx",
+        "frontend/src/screens/ProjectsScreen.tsx",
+        "frontend/src/screens/TemplatesScreen.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-12"
+      ],
+      "confidence": "high"
+    }
+  ]
+}
